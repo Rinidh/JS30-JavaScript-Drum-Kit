@@ -15,8 +15,80 @@
       <kbd>A</kbd>
       <span class="sound-name">clap</span>
     </div>
+    <div class="key" data-key="83">
+      <kbd>S</kbd>
+      <span class="sound-name">hihat</span>
+    </div>
+    <div class="key" data-key="76">
+      <kbd>L</kbd>
+      <span class="sound-name">kick</span>
+    </div>
+    <div class="key" data-key="68">
+      <kbd>D</kbd>
+      <span class="sound-name">open hat</span>
+    </div>
+    <div class="key" data-key="70">
+      <kbd>F</kbd>
+      <span class="sound-name">boom</span>
+    </div>
+    <div class="key" data-key="71">
+      <kbd>G</kbd>
+      <span class="sound-name">ride</span>
+    </div>
+    <div class="key" data-key="72">
+      <kbd>H</kbd>
+      <span class="sound-name">snare</span>
+    </div>
+    <div class="key" data-key="74">
+      <kbd>J</kbd>
+      <span class="sound-name">tom</span>
+    </div>
+    <div class="key" data-key="75">
+      <kbd>K</kbd>
+      <span class="sound-name">tink</span>
+    </div>
   </div>
 
+  <audio data-key="65" src="./sounds/clap.wav"></audio>
+  <audio data-key="83" src="./sounds/hihat.wav"></audio>
+  <audio data-key="68" src="./sounds/kick.wav"></audio>
+  <audio data-key="70" src="./sounds/openhat.wav"></audio>
+  <audio data-key="71" src="./sounds/boom.wav"></audio>
+  <audio data-key="72" src="./sounds/ride.wav"></audio>
+  <audio data-key="74" src="./sounds/snare.wav"></audio>
+  <audio data-key="75" src="./sounds/tom.wav"></audio>
+  <audio data-key="76" src="./sounds/tink.wav"></audio>
+
+  <script>
+    const keys = document.querySelectorAll(".key")
+
+    document.addEventListener("keydown", (e) => {
+      const audio = document.querySelector('audio[data-key="${e.keyCode}"')
+      const key = document.querySelector('.key[data-key="${e.keyCode}"')
+
+      if (!audio) return;
+      logAudioName(audio.src)
+      audio.currentTime = 0;
+      audio.play();
+
+      key.classList.add("playing")
+
+    })
+
+    keys.forEach(key => key.addEventListener("transitionend", onTransitionEnd));
+
+    function onTransitionEnd(e) {
+      if (e.propertyName !== "transform") return;
+
+      this.classList.remove("playing")
+    }
+
+    function logAudioName(url) {
+      const regex = /\/(\w+)\.wav$/
+      const match = url.match(regex)
+      console.log("audio: ", match[1]) //only the capturing group matched string
+    }
+  </script>
 </body>
 
 </html>
